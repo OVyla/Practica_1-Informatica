@@ -11,7 +11,7 @@ echo "le - Llistar els estats/províncies del país seleccionat"
 echo "lcp - Llistar el wikidatald i les poblacions del país seleccionat"
 echo "ecp - Guardar el wikidatald i les poblacions del país seleccionat en un arxiu"
 echo "lce - Llistar el Wikidata de l'estat seleccionat"
-echo "lce2 - Buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer"
+echo "ece - Buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer"
 echo "gwd - Guardar en un fitxer les dades de població del seu WikiData"
 echo "est - Mostrar les estadístiques del dataset"
 #Mostrar un menú amb les opcions
@@ -78,7 +78,7 @@ while [ "$opcio" != "q" ]; do
                 awk -F ',' -v estat="$codi_estat" -v pais="$codi_pais" '$4 == estat && $7 == pais {print $2, $11}' cities.csv #Buscar i mostrar amb el codi de l'estat i en nombre del país, les poblacions que coincideixin i el seu wikidatald
             fi
             ;;
-        "lce2") # Comanda per buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer (<codi_pais>_<codi_estat>.csv)
+        "ece") # Comanda per buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer (<codi_pais>_<codi_estat>.csv)
             if [ -z "$codi_estat" ]; then
                 echo "Abans de llistar el wikidata, has de seleccionar un estat amb l'ordre 'se'." #Mostrar un avís si no s'ha seleccionat cap estat
             else
