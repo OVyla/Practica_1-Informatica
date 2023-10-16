@@ -2,20 +2,21 @@
 
 #Oriol Vilà i Laia Espluga
 
+echo "Opcions disponibles:"
+echo "q - Sortir de l'aplicació"
+echo "lp - Llistar per pantalla els països i el seu codi"
+echo "sc - Seleccionar un país"
+echo "se - Seleccionar un estat"
+echo "le - Llistar els estats/províncies del país seleccionat"
+echo "lcp - Llistar el wikidatald i les poblacions del país seleccionat"
+echo "ecp - Guardar el wikidatald i les poblacions del país seleccionat en un arxiu"
+echo "lce - Llistar el Wikidata de l'estat seleccionat"
+echo "lce2 - Buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer"
+echo "gwd - Guardar en un fitxer les dades de població del seu WikiData"
+echo "est - Mostrar les estadístiques del dataset"
+#Mostrar un menú amb les opcions
+
 while [ "$opcio" != "q" ]; do
-	echo "Opcions disponibles:"
-    echo "q - Sortir de l'aplicació"
-    echo "lp - Llistar per pantalla els països i el seu codi"
-    echo "sc - Seleccionar un país"
-    echo "se - Seleccionar un estat"
-    echo "le - Llistar els estats/províncies del país seleccionat"
-    echo "lcp - Llistar el wikidatald i les poblacions del país seleccionat"
-    echo "ecp - Guardar el wikidatald i les poblacions del país seleccionat en un arxiu"
-    echo "lce - Llistar el Wikidata de l'estat seleccionat"
-    echo "lce2 - Buscar el Wikidata de l'estat seleccionat i guardar-lo en un fitxer"
-    echo "gwd - Llistar les dades de població del seu WikiData"
-    echo "est - Mostrar les estadístiques del dataset"
-    #Mostrar un menú amb les opcions
     read -p "Escull una opcio: " opcio
     case $opcio in
         "q") #Comanda per sortir del programa
@@ -90,19 +91,26 @@ while [ "$opcio" != "q" ]; do
 			wikidataUrl="https://www.wikidata.org/wiki/Special:EntityData/$wikidataId.json" #Busca al web les dades de la població (utilitznat la variable WikidataId en funció de la població/estat)
 			curl -o "$wikidataId.json" "$wikidataUrl" #Utilitza la comanda curl per descarregar la informació en format JSON
 			;;
-		"est") #Comanda per obtenir estadístiques
-		  awk -F ',' '{
-		    if ($9 > 0) nord++
-		    else if ($9 < 0) sud++
-		    if ($10 > 0) est++
-		    else if ($10 < 0) oest++
-		    if ($9 == 0 && $10 == 0) no_ubic++
-		    if ($11 == "") no_wdid++
-		  } 
-		  END {
-		    printf "Nord %d Sud %d Est %d Oest %d No ubic %d No WDId %d\n", nord, sud, est, oest, no_ubic, no_wdid
-		  }' cities.csv
-		  ;;
+        "est") # Comanda per obtenir estadístiques
+            nord=0.0
+            sud=0.0
+            est=0.0
+            oest=0.0
+            no_ubic=0.0
+            no_wdid=0.0
+
+            awk -F ',' '{
+                nord += ( $9 > 0.0 )
+                sud += ( $9 < 0.0 )
+                est += ( $10 > 0.0 )
+                oest += ( $10 < 0.0 )
+                no_ubic += ( $9 == 0 ) && ( $10 == 0 )
+                no_wdid += ( $11 == "" )
+            } 
+            END {
+                printf "Nord %d Sud %d Est %d Oest %d No ubic %d No WDId %d\n", nord, sud, est, oest, no_ubic, no_wdid
+            }' cities.csv
+            ;;
 			*) #Mostrar un missatge en el cas de que l'usuari introdueixi una comanda no vàlida
             echo "Opció no vàlida"
             ;;
