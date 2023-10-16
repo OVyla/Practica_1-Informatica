@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#Oriol Vilà i Laia Espluga
+
 while [ "$opcio" != "q" ]; do
 	echo "Opcions disponibles:"
     echo "q - Sortir de l'aplicació"
