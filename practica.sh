@@ -91,13 +91,13 @@ while [ "$opcio" != "q" ]; do
 			wikidataUrl="https://www.wikidata.org/wiki/Special:EntityData/$wikidataId.json" #Busca al web les dades de la població (utilitznat la variable WikidataId en funció de la població/estat)
 			curl -o "$wikidataId.json" "$wikidataUrl" #Utilitza la comanda curl per descarregar la informació en format JSON
 			;;
-        "est") # Comanda per obtenir estadístiques
-            nord=0.0
-            sud=0.0
-            est=0.0
-            oest=0.0
-            no_ubic=0.0
-            no_wdid=0.0
+        "est") # Comanda per obtenir estadístiques (tot i que la comanda és correcta, aparentment no funciona correctament)
+            nord=0
+            sud=0
+            est=0
+            oest=0
+            no_ubic=0
+            no_wdid=0
 
             awk -F ',' '{
                 nord += ( $9 > 0.0 )
